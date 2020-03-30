@@ -4,10 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.IntStream;
 
 public class Main {
@@ -19,7 +16,10 @@ public class Main {
     public static void main(String[] args) {
         loeEsindusedFailist();
         loeReeglidFailist();
-        //kuvaEsindused();
+//        kuvaMenuu();
+//        int valik = loeMenuuValik(4);
+
+
 
         Scanner klaviatuur = new Scanner(System.in);
         int[] praeguneJaotus = new int[esindusteHulk];
@@ -30,31 +30,97 @@ public class Main {
         praeguneJaotus[1] = klaviatuur.nextInt();
         System.out.print("Lõunakeskuses: ");
         praeguneJaotus[2] = klaviatuur.nextInt();
-        int[][] saatmisMaatriks = arvutaJaotusMaatriks(praeguneJaotus);
-        for (int[] massiiv: saatmisMaatriks) {
-            for (int element: massiiv) {
-                System.out.print(element + " ");
+        //int[] praeguneJaotus = new int[]{3, 0, 3};
+        int[][] jaotusMaatriks = arvutaJaotusMaatriks(praeguneJaotus);
+        System.out.println();
+        kuvaJaotusJuhised(jaotusMaatriks);
+        System.out.println();
+        kuvaJaotusMaatriks(jaotusMaatriks);
+        System.out.println();
+        kuvaMuutusteTabel(praeguneJaotus, jaotusMaatriks);
+    }
+
+    private static int loeMenuuValik(int valikuteHulk) {
+        Scanner klaviatuur = new Scanner(System.in);
+        String sisend = null;
+        int valik = 0;
+        do {
+            try {
+                System.out.print("Sisesta valik (nr 1-" + valikuteHulk + "): ");
+                sisend = klaviatuur.next();
+                valik = Integer.parseInt(sisend);
+            } catch (NumberFormatException erind) {
+                System.out.print("Pole arv! ");
+            }
+        } while(valik < 1 || valik > valikuteHulk);
+        return valik;
+    }
+
+    private static void kuvaMenuu() {
+        System.out.println("1. loe laoseis failist (laoseis.csv)");
+        System.out.println("2. loe laoseis failist (sisesta failinimi)");
+        System.out.println("3. sisesta laoseis käsitsi");
+        System.out.println("4. kuva esindused");
+    }
+
+    private static void kuvaJaotusJuhised(int[][] jaotusMaatriks) {
+        for (int i = 0; i < jaotusMaatriks.length; i++) {
+            for (int j = 0; j < jaotusMaatriks[i].length; j++) {
+                if (jaotusMaatriks[i][j] > 0) {
+                    System.out.println("Saata " + jaotusMaatriks[i][j] + " varuosa " +
+                            esindused.get(i).getNimiSeestytlev() + " " +
+                            esindused.get(j).getNimiSisseytlev() + ".");
+                }
+            }
+        }
+    }
+
+    private static void kuvaJaotusMaatriks(int[][] jaotusMaatriks) {
+        System.out.print(String.format("%-15s", ""));
+        for (Esindus esindus: esindused) {
+            System.out.print(String.format("%-15s", esindus.getNimiSisseytlev()));
+        }
+        System.out.println();
+        for (int i = 0; i < jaotusMaatriks.length; i++) {
+            System.out.print(String.format("%-15s", esindused.get(i).getNimiSeestytlev()));
+            for(int element: jaotusMaatriks[i]) {
+                System.out.print(String.format("%-15s", element));
             }
             System.out.println();
         }
     }
 
-    private static void jaotaVaruosad() {
+    private static void kuvaMuutusteTabel(int[] praeguneJaotus, int[][] jaotusMaatriks) {
+        System.out.println(String.format("%-15s%-15s%-15s%-15s", " ", "Hetkeseis", "Uus seis", "Muutus"));
+        int muutus, uusSeis;
+        for (int i = 0; i < jaotusMaatriks.length; i++) {
+            uusSeis = praeguneJaotus[i];
+            for (int j = 0; j < jaotusMaatriks[i].length; j++) {
+                uusSeis -= jaotusMaatriks[i][j];
+            }
+            muutus = uusSeis - praeguneJaotus[i];
+            System.out.println(String.format("%-15s%-15s%-15s%-15s",
+                    esindused.get(i).getNimi(),
+                    praeguneJaotus[i],
+                    uusSeis,
+                    muutus));
+        }
+    }
 
+    private static void kuvaEsindused() {
+        System.out.println("Kokku on " + esindused.size() + " esindust:");
+        System.out.println(String.format("%-15s%-15s", "Esindus", "Linn"));
+        for (Esindus esindus : esindused) {
+            System.out.println(String.format("%-15s%-15s", esindus.getNimi(), esindus.getAadress().getLinn()));
+        }
     }
 
     private static int[][] arvutaJaotusMaatriks(int[] praeguneJaotus) {
         int varuosadeHulk = IntStream.of(praeguneJaotus).sum();
         int[] erinevus = new int[esindusteHulk];
-        int[] algneErinevus = new int[esindusteHulk];
         int[][] saatmisMaatriks = new int[esindusteHulk][esindusteHulk];
         for (int i = 0; i < esindusteHulk; i++) {
             erinevus[i] = praeguneJaotus[i] - reeglid.get(varuosadeHulk).get(i);
-            algneErinevus[i] = praeguneJaotus[i] - reeglid.get(varuosadeHulk).get(i);
-        }
-        System.out.println();
-        if (erinevus[0] == 0 && erinevus[1] == 0 && erinevus[2] == 0) {
-            System.out.println("Varuosad on optimaalselt jaotatud!");
         }
         while (!(erinevus[0] == 0 && erinevus[1] == 0 && erinevus[2] == 0)) {
             // i == puudu, j == üle;
@@ -63,27 +129,15 @@ public class Main {
                     for (int j = 0; j < esindusteHulk; j++) {
                         if (erinevus[j] > 0) {
                             if (Math.abs(erinevus[i]) == Math.abs(erinevus[j])) {
-                                System.out.println("Saata " +
-                                        Math.abs(erinevus[j]) + " varuosa " +
-                                        esindused.get(j).getNimiSeestytlev() + " " +
-                                        esindused.get(i).getNimiSisseytlev() + ".");
                                 saatmisMaatriks[i][j] = erinevus[i];
                                 saatmisMaatriks[j][i] = erinevus[j];
                                 erinevus[i] = erinevus[j] = 0;
                             } else if (Math.abs(erinevus[i]) > Math.abs(erinevus[j])) {
-                                System.out.println("Saata " +
-                                        Math.abs(erinevus[j]) + " varuosa " +
-                                        esindused.get(j).getNimiSeestytlev() + " " +
-                                        esindused.get(i).getNimiSisseytlev() + ".");
                                 saatmisMaatriks[i][j] = -(erinevus[j]);
                                 saatmisMaatriks[j][i] = erinevus[j];
                                 erinevus[i] += erinevus[j];
                                 erinevus[j] = 0;
                             } else if (Math.abs(erinevus[i]) < Math.abs(erinevus[j])) {
-                                System.out.println("Saata " +
-                                        Math.abs(erinevus[i]) + " varuosa " +
-                                        esindused.get(j).getNimiSeestytlev() + " " +
-                                        esindused.get(i).getNimiSisseytlev() + ".");
                                 saatmisMaatriks[i][j] = erinevus[i];
                                 saatmisMaatriks[j][i] = -(erinevus[i]);
                                 erinevus[j] += erinevus[i];
@@ -94,66 +148,7 @@ public class Main {
                 }
             }
         }
-        System.out.println();
-        System.out.println(String.format("%-15s%-10s%-10s%-10s", "Esindus", "Hetkeseis", "Uus seis", "Erinevus"));
-        for (int i = 0; i < esindusteHulk; i++) {
-            System.out.println(String.format("%-15s%-10s%-10s%-10s",
-                    esindused.get(i).getNimi(),
-                    praeguneJaotus[i],
-                    reeglid.get(varuosadeHulk).get(i),
-                    algneErinevus[i]));
-        }
         return saatmisMaatriks;
-    }
-
-    private static void arvutaJaotus(int[] praeguneJaotus) {
-        int varuosadeHulk = IntStream.of(praeguneJaotus).sum();
-        int[] erinevus = new int[esindusteHulk];
-        for (int i = 0; i < esindusteHulk; i++) {
-            erinevus[i] = praeguneJaotus[i] - reeglid.get(varuosadeHulk).get(i);
-        }
-        System.out.println();
-        if (erinevus[0] == 0 && erinevus[1] == 0 && erinevus[2] == 0) {
-            System.out.println("Varuosad on optimaalselt jaotatud!");
-        }
-        while (!(erinevus[0] == 0 && erinevus[1] == 0 && erinevus[2] == 0)) {
-            // i == puudu, j == üle;
-            for (int i = 0; i < esindusteHulk; i++) {
-                if (erinevus[i] < 0) {
-                    for (int j = 0; j < esindusteHulk; j++) {
-                        if (erinevus[j] > 0) {
-                            if (Math.abs(erinevus[i]) == Math.abs(erinevus[j])) {
-                                System.out.println("Saata " +
-                                        Math.abs(erinevus[j]) + " varuosa " +
-                                        esindused.get(j).getNimiSeestytlev() + " " +
-                                        esindused.get(i).getNimiSisseytlev() + ".");
-                                erinevus[i] = erinevus[j] = 0;
-                            } else if (Math.abs(erinevus[i]) > Math.abs(erinevus[j])) {
-                                System.out.println("Saata " +
-                                        Math.abs(erinevus[j]) + " varuosa " +
-                                        esindused.get(j).getNimiSeestytlev() + " " +
-                                        esindused.get(i).getNimiSisseytlev() + ".");
-                                erinevus[i] += erinevus[j];
-                                erinevus[j] = 0;
-                            } else if (Math.abs(erinevus[i]) < Math.abs(erinevus[j])) {
-                                System.out.println("Saata " +
-                                        Math.abs(erinevus[i]) + " varuosa " +
-                                        esindused.get(j).getNimiSeestytlev() + " " +
-                                        esindused.get(i).getNimiSisseytlev() + ".");
-                                erinevus[j] += erinevus[i];
-                                erinevus[i] = 0;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        System.out.println();
-        System.out.println(String.format("%-15s%-10s%-10s", "Esindus", "Hetkeseis", "Uus seis"));
-        for (int i = 0; i < esindusteHulk; i++) {
-            System.out.println(String.format("%-15s%-10s%-10s",
-                    esindused.get(i).getNimi(), praeguneJaotus[i], reeglid.get(varuosadeHulk).get(i)));
-        }
     }
 
     private static void loeReeglidFailist() {
@@ -215,13 +210,6 @@ public class Main {
                     e.printStackTrace();
                 }
             }
-        }
-    }
-
-    private static void kuvaEsindused() {
-        System.out.println("Kokku on " + esindused.size() + " esindust:");
-        for (Esindus esindus : esindused) {
-            System.out.println(esindus.getNimi());
         }
     }
 }
