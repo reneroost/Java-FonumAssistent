@@ -1,9 +1,6 @@
 package ee.reneroost.fonumiassistent;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.stream.IntStream;
 
@@ -12,10 +9,13 @@ public class Main {
     private static int esindusteHulk;
     private static List<Esindus> esindused = new ArrayList<>();
     private static List<List<Integer>> reeglid = new ArrayList<>();
+    private static List<Varuosa> varuosad = new ArrayList<>();
 
     public static void main(String[] args) {
         loeEsindusedFailist();
         loeReeglidFailist();
+        loeLaoseisFailist();
+        kuvaPraeguneJaotus();
 //        kuvaMenuu();
 //        int valik = loeMenuuValik(4);
 
@@ -38,6 +38,13 @@ public class Main {
         kuvaJaotusMaatriks(jaotusMaatriks);
         System.out.println();
         kuvaMuutusteTabel(praeguneJaotus, jaotusMaatriks);
+    }
+
+    private static void kuvaPraeguneJaotus() {
+        System.out.println(Varuosa.tabeliPealkiri());
+        for (Varuosa varuosa: varuosad) {
+            System.out.println(varuosa.tabeliRida());
+        }
     }
 
     private static int loeMenuuValik(int valikuteHulk) {
@@ -83,8 +90,12 @@ public class Main {
         System.out.println();
         for (int i = 0; i < jaotusMaatriks.length; i++) {
             System.out.print(String.format("%-15s", esindused.get(i).getNimiSeestytlev()));
-            for(int element: jaotusMaatriks[i]) {
-                System.out.print(String.format("%-15s", element));
+            for(int j = 0; j < jaotusMaatriks[i].length; j++) {
+                if (i == j) {
+                    System.out.print(String.format("%-15s", "---"));
+                } else {
+                    System.out.print(String.format("%-15s", jaotusMaatriks[i][j]));
+                }
             }
             System.out.println();
         }
@@ -164,8 +175,7 @@ public class Main {
                 reeglid.add(Arrays.asList(reegelArv[0], reegelArv[1], reegelArv[2]));
             }
         } catch (FileNotFoundException e) {
-            System.out.println("Faili ei leitud. Stack trace:");
-            e.printStackTrace();
+            System.out.println("Faili ei leitud.");
         } catch (IOException e) {
             System.out.println("Rida ei õnnestunud lugeda. Stack trace:");
             e.printStackTrace();
@@ -196,8 +206,7 @@ public class Main {
                 esindused.add(esindus);
             }
         } catch (FileNotFoundException e) {
-            System.out.println("Faili ei leitud. Stack trace:");
-            e.printStackTrace();
+            System.out.println("Faili ei leitud.");
         } catch (IOException e) {
             System.out.println("Rida ei õnnestunud lugeda. Stack trace:");
             e.printStackTrace();
@@ -208,6 +217,47 @@ public class Main {
                     br.close();
                 } catch (IOException e) {
                     e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private static void loeLaoseisFailist() {
+        String laoseisFail = "C:\\Users\\roost\\Desktop\\Fonumi assistent\\laoseis.csv";
+        BufferedReader br = null;
+        String rida, csvEraldaja = ",";
+        Varuosa varuosa;
+        List<Integer> jaotus;
+
+        try {
+            br = new BufferedReader((new FileReader(laoseisFail)));
+            while ((rida = br.readLine()) != null) {
+                String[] varuosaRida = rida.split(csvEraldaja);
+                jaotus = new ArrayList<>();
+                // varuosa jaotus esinduste vahel algab rea 5. elemendiga
+                for (int i = 5; i < varuosaRida.length; i++) {
+                    jaotus.add(Integer.parseInt(varuosaRida[i]));
+                }
+                varuosa = new Varuosa(
+                        varuosaRida[0],
+                        varuosaRida[1],
+                        varuosaRida[2],
+                        Integer.parseInt(varuosaRida[3]),
+                        Integer.parseInt(varuosaRida[4]),
+                        jaotus);
+                varuosad.add(varuosa);
+            }
+        } catch (FileNotFoundException erind) {
+            System.out.println("Faili ei leitud.");
+        } catch (IOException erind) {
+            System.out.println("Rida ei õnnestunud lugeda. Stack trace");
+            erind.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException erind) {
+                    erind.printStackTrace();
                 }
             }
         }
