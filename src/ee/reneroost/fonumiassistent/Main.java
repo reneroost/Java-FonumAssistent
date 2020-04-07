@@ -6,42 +6,79 @@ import java.util.stream.IntStream;
 
 public class Main {
 
+    private static String esindusedSisendFail = "esindused.csv";
+    private static String jaotusReeglidSisendFail = "jaotusreeglid.csv";
+    private static String varuosaJaotusedSisendFail = "laoseis.csv";
     private static int esindusteHulk;
     private static List<Esindus> esindused = new ArrayList<>();
     private static List<List<Integer>> reeglid = new ArrayList<>();
     private static List<Varuosa> varuosad = new ArrayList<>();
+    private static List<String> tootjad = new ArrayList<>();
+    private static List<String> varuosaLiigid = new ArrayList<>();
 
     public static void main(String[] args) {
         loeEsindusedFailist();
         loeReeglidFailist();
         loeLaoseisFailist();
+        loeTootjadListist();
+        //kuvaTootjad();
+        loeVaruosaLiikListist();
+//        kuvaVaruosaLiigid();
         kuvaPraeguneJaotus();
 //        kuvaMenuu();
 //        int valik = loeMenuuValik(4);
 
 
 
-        Scanner klaviatuur = new Scanner(System.in);
-        int[] praeguneJaotus = new int[esindusteHulk];
-        System.out.println("Sisesta praegune varuosa jaotus");
-        System.out.print("Kristiines: ");
-        praeguneJaotus[0] = klaviatuur.nextInt();
-        System.out.print("T1-s: ");
-        praeguneJaotus[1] = klaviatuur.nextInt();
-        System.out.print("Lõunakeskuses: ");
-        praeguneJaotus[2] = klaviatuur.nextInt();
-        //int[] praeguneJaotus = new int[]{3, 0, 3};
-        int[][] jaotusMaatriks = arvutaJaotusMaatriks(praeguneJaotus);
-        System.out.println();
-        kuvaJaotusJuhised(jaotusMaatriks);
-        System.out.println();
-        kuvaJaotusMaatriks(jaotusMaatriks);
-        System.out.println();
-        kuvaMuutusteTabel(praeguneJaotus, jaotusMaatriks);
+        // Scanner klaviatuur = new Scanner(System.in);
+        // int[] praeguneJaotus = new int[esindusteHulk];
+        // System.out.println("Sisesta praegune varuosa jaotus");
+        // System.out.print("Kristiines: ");
+        // praeguneJaotus[0] = klaviatuur.nextInt();
+        // System.out.print("T1-s: ");
+        // praeguneJaotus[1] = klaviatuur.nextInt();
+        // System.out.print("Lõunakeskuses: ");
+        // praeguneJaotus[2] = klaviatuur.nextInt();
+        // //int[] praeguneJaotus = new int[]{3, 0, 3};
+        // int[][] jaotusMaatriks = arvutaJaotusMaatriks(praeguneJaotus);
+        // System.out.println();
+        // kuvaJaotusJuhised(jaotusMaatriks);
+        // System.out.println();
+        // kuvaJaotusMaatriks(jaotusMaatriks);
+        // System.out.println();
+        // kuvaMuutusteTabel(praeguneJaotus, jaotusMaatriks);
+    }
+
+    public static void loeTootjadListist() {
+        for (Varuosa varuosa: varuosad) {
+            if (!tootjad.contains(varuosa.getTootemark())) {
+                tootjad.add(varuosa.getTootemark());
+            }
+        }
+    }
+
+    public static void kuvaTootjad() {
+        for (String tootja: tootjad) {
+            System.out.println(tootja);
+        }
+    }
+
+    public static void loeVaruosaLiikListist() {
+        for (Varuosa varuosa: varuosad) {
+            if (!varuosaLiigid.contains(varuosa.getVaruosaLiik())) {
+                varuosaLiigid.add(varuosa.getVaruosaLiik());
+            }
+        }
+    }
+
+    public static void kuvaVaruosaLiigid() {
+        for (String varuosa: varuosaLiigid) {
+            System.out.println(varuosa);
+        }
     }
 
     private static void kuvaPraeguneJaotus() {
-        System.out.println(Varuosa.tabeliPealkiri());
+        System.out.println(varuosad.get(0).tabeliPealkiri());
         for (Varuosa varuosa: varuosad) {
             System.out.println(varuosa.tabeliRida());
         }
@@ -68,6 +105,12 @@ public class Main {
         System.out.println("2. loe laoseis failist (sisesta failinimi)");
         System.out.println("3. sisesta laoseis käsitsi");
         System.out.println("4. kuva esindused");
+        System.out.println("5. kuva laoseis");
+        System.out.println("5.0.1 kuva loas olevad tootjad");
+        System.out.println("5.0.2 kuva laos olevad varuosaliigid");
+        System.out.println("5.1 kuva konkreetse tootja laoseis");
+        System.out.println("5.2 kuva konkreetse varuosa liigi laoseis");
+        System.out.println("5.3 kuva otsalõppevate varuosade laoseis");
     }
 
     private static void kuvaJaotusJuhised(int[][] jaotusMaatriks) {
@@ -163,7 +206,7 @@ public class Main {
     }
 
     private static void loeReeglidFailist() {
-        String jaotusreeglidFail = "C:\\Users\\roost\\Desktop\\Fonumi assistent\\jaotusreeglid.csv";
+        String jaotusreeglidFail = "C:\\Users\\roost\\Desktop\\Fonumi assistent\\" + jaotusReeglidSisendFail;
         BufferedReader br = null;
         String rida, csvEraldaja = ",";
 
@@ -191,7 +234,7 @@ public class Main {
     }
 
     private static void loeEsindusedFailist() {
-        String esindusedFail = "C:\\Users\\roost\\Desktop\\Fonumi assistent\\esindused.csv";
+        String esindusedFail = "C:\\Users\\roost\\Desktop\\Fonumi assistent\\" + esindusedSisendFail;
         BufferedReader br = null;
         String rida, csvEraldaja = ",";
         Esindus esindus;
@@ -223,7 +266,7 @@ public class Main {
     }
 
     private static void loeLaoseisFailist() {
-        String laoseisFail = "C:\\Users\\roost\\Desktop\\Fonumi assistent\\laoseis.csv";
+        String laoseisFail = "C:\\Users\\roost\\Desktop\\Fonumi assistent\\" + varuosaJaotusedSisendFail;
         BufferedReader br = null;
         String rida, csvEraldaja = ",";
         Varuosa varuosa;
@@ -234,16 +277,17 @@ public class Main {
             while ((rida = br.readLine()) != null) {
                 String[] varuosaRida = rida.split(csvEraldaja);
                 jaotus = new ArrayList<>();
-                // varuosa jaotus esinduste vahel algab rea 5. elemendiga
-                for (int i = 5; i < varuosaRida.length; i++) {
+                // varuosa jaotus esinduste vahel algab rea 6. elemendiga
+                for (int i = 6; i < varuosaRida.length; i++) {
                     jaotus.add(Integer.parseInt(varuosaRida[i]));
                 }
                 varuosa = new Varuosa(
                         varuosaRida[0],
                         varuosaRida[1],
                         varuosaRida[2],
-                        Integer.parseInt(varuosaRida[3]),
+                        Double.parseDouble(varuosaRida[3]),
                         Integer.parseInt(varuosaRida[4]),
+                        Integer.parseInt(varuosaRida[5]),
                         jaotus);
                 varuosad.add(varuosa);
             }
