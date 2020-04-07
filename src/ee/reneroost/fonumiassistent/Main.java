@@ -12,7 +12,7 @@ public class Main {
     private static int esindusteHulk;
     private static List<Esindus> esindused = new ArrayList<>();
     private static List<List<Integer>> reeglid = new ArrayList<>();
-    private static List<Varuosa> varuosad = new ArrayList<>();
+    private static List<VaruosaJaotus> varuosaJaotused = new ArrayList<>();
     private static List<String> tootjad = new ArrayList<>();
     private static List<String> varuosaLiigid = new ArrayList<>();
 
@@ -50,7 +50,7 @@ public class Main {
     }
 
     public static void loeTootjadListist() {
-        for (Varuosa varuosa: varuosad) {
+        for (VaruosaJaotus varuosa: varuosaJaotused) {
             if (!tootjad.contains(varuosa.getTootemark())) {
                 tootjad.add(varuosa.getTootemark());
             }
@@ -64,7 +64,7 @@ public class Main {
     }
 
     public static void loeVaruosaLiikListist() {
-        for (Varuosa varuosa: varuosad) {
+        for (VaruosaJaotus varuosa: varuosaJaotused) {
             if (!varuosaLiigid.contains(varuosa.getVaruosaLiik())) {
                 varuosaLiigid.add(varuosa.getVaruosaLiik());
             }
@@ -78,8 +78,8 @@ public class Main {
     }
 
     private static void kuvaPraeguneJaotus() {
-        System.out.println(varuosad.get(0).tabeliPealkiri());
-        for (Varuosa varuosa: varuosad) {
+        System.out.println(varuosaJaotused.get(0).tabeliPealkiri());
+        for (VaruosaJaotus varuosa: varuosaJaotused) {
             System.out.println(varuosa.tabeliRida());
         }
     }
@@ -269,7 +269,7 @@ public class Main {
         String laoseisFail = "C:\\Users\\roost\\Desktop\\Fonumi assistent\\" + varuosaJaotusedSisendFail;
         BufferedReader br = null;
         String rida, csvEraldaja = ",";
-        Varuosa varuosa;
+        VaruosaJaotus varuosa;
         List<Integer> jaotus;
 
         try {
@@ -281,7 +281,7 @@ public class Main {
                 for (int i = 6; i < varuosaRida.length; i++) {
                     jaotus.add(Integer.parseInt(varuosaRida[i]));
                 }
-                varuosa = new Varuosa(
+                varuosa = new VaruosaJaotus(
                         varuosaRida[0],
                         varuosaRida[1],
                         varuosaRida[2],
@@ -289,7 +289,7 @@ public class Main {
                         Integer.parseInt(varuosaRida[4]),
                         Integer.parseInt(varuosaRida[5]),
                         jaotus);
-                varuosad.add(varuosa);
+                varuosaJaotused.add(varuosa);
             }
         } catch (FileNotFoundException erind) {
             System.out.println("Faili ei leitud.");

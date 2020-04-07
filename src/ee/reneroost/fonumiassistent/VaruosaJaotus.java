@@ -2,7 +2,7 @@ package ee.reneroost.fonumiassistent;
 
 import java.util.List;
 
-public class Varuosa {
+public class VaruosaJaotus {
     private String tootemark;
     private String mudel;
     private String varuosaLiik;
@@ -11,7 +11,7 @@ public class Varuosa {
     private int kogus;
     private List<Integer> jaotus;
 
-    public Varuosa(
+    public VaruosaJaotus(
             String tootemark,
             String mudel,
             String varuosaLiik,
