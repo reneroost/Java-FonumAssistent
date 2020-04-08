@@ -9,25 +9,20 @@ public class Main {
     private static String esindusedSisendFail = "esindused.csv";
     private static String jaotusReeglidSisendFail = "jaotusreeglid.csv";
     private static String varuosaJaotusedSisendFail = "laoseis.csv";
-    private static int esindusteHulk;
     private static List<Esindus> esindused = new ArrayList<>();
     private static List<List<Integer>> reeglid = new ArrayList<>();
-    private static List<VaruosaJaotus> varuosaJaotused = new ArrayList<>();
-    private static List<String> tootjad = new ArrayList<>();
-    private static List<String> varuosaLiigid = new ArrayList<>();
+    private static List<VaruosaJaotus> varuosad = new ArrayList<>();
 
     public static void main(String[] args) {
         loeEsindusedFailist();
         loeReeglidFailist();
         loeLaoseisFailist();
-        loeTootjadListist();
-        //kuvaTootjad();
-        loeVaruosaLiikListist();
-//        kuvaVaruosaLiigid();
         kuvaPraeguneJaotus();
-//        kuvaMenuu();
-//        int valik = loeMenuuValik(4);
-
+        
+        for (VaruosaJaotus varuosa: varuosad) {
+            int[][] jaotusmaatriks = arvutaJaotusMaatriks(varuosa.getJaotus());
+            kuvaJaotusJuhised(varuosa, jaotusmaatriks);
+        }
 
 
         // Scanner klaviatuur = new Scanner(System.in);
@@ -49,37 +44,9 @@ public class Main {
         // kuvaMuutusteTabel(praeguneJaotus, jaotusMaatriks);
     }
 
-    public static void loeTootjadListist() {
-        for (VaruosaJaotus varuosa: varuosaJaotused) {
-            if (!tootjad.contains(varuosa.getTootemark())) {
-                tootjad.add(varuosa.getTootemark());
-            }
-        }
-    }
-
-    public static void kuvaTootjad() {
-        for (String tootja: tootjad) {
-            System.out.println(tootja);
-        }
-    }
-
-    public static void loeVaruosaLiikListist() {
-        for (VaruosaJaotus varuosa: varuosaJaotused) {
-            if (!varuosaLiigid.contains(varuosa.getVaruosaLiik())) {
-                varuosaLiigid.add(varuosa.getVaruosaLiik());
-            }
-        }
-    }
-
-    public static void kuvaVaruosaLiigid() {
-        for (String varuosa: varuosaLiigid) {
-            System.out.println(varuosa);
-        }
-    }
-
     private static void kuvaPraeguneJaotus() {
-        System.out.println(varuosaJaotused.get(0).tabeliPealkiri());
-        for (VaruosaJaotus varuosa: varuosaJaotused) {
+        System.out.println(varuosad.get(0).tabeliPealkiri());
+        for (VaruosaJaotus varuosa: varuosad) {
             System.out.println(varuosa.tabeliRida());
         }
     }
@@ -113,11 +80,13 @@ public class Main {
         System.out.println("5.3 kuva otsalõppevate varuosade laoseis");
     }
 
-    private static void kuvaJaotusJuhised(int[][] jaotusMaatriks) {
+    private static void kuvaJaotusJuhised(VaruosaJaotus varuosa, int[][] jaotusMaatriks) {
         for (int i = 0; i < jaotusMaatriks.length; i++) {
             for (int j = 0; j < jaotusMaatriks[i].length; j++) {
                 if (jaotusMaatriks[i][j] > 0) {
-                    System.out.println("Saata " + jaotusMaatriks[i][j] + " varuosa " +
+                    System.out.println("Saata " + jaotusMaatriks[i][j] + " " +
+                            varuosa.getMudel() + " " +
+                            varuosa.getVaruosaLiik() + " " +
                             esindused.get(i).getNimiSeestytlev() + " " +
                             esindused.get(j).getNimiSisseytlev() + ".");
                 }
@@ -159,18 +128,48 @@ public class Main {
                     uusSeis,
                     muutus));
         }
-    }
+    } 
 
-    private static void kuvaEsindused() {
-        System.out.println("Kokku on " + esindused.size() + " esindust:");
-        System.out.println(String.format("%-15s%-15s", "Esindus", "Linn"));
-        for (Esindus esindus : esindused) {
-            System.out.println(String.format("%-15s%-15s", esindus.getNimi(), esindus.getAadress().getLinn()));
+    private static int[][] arvutaJaotusMaatriks(List<Integer> praeguneJaotus) {
+        int varuosadeHulk = praeguneJaotus.stream().mapToInt(Integer::intValue).sum();
+        int esindusteHulk = esindused.size();
+        int[] erinevus = new int[esindusteHulk];
+        int[][] saatmisMaatriks = new int[esindusteHulk][esindusteHulk];
+        for (int i = 0; i < esindusteHulk; i++) {
+            erinevus[i] = praeguneJaotus.get(i) - reeglid.get(varuosadeHulk).get(i);
         }
+        while (!(erinevus[0] == 0 && erinevus[1] == 0 && erinevus[2] == 0)) {
+            // i == puudu, j == üle;
+            for (int i = 0; i < esindusteHulk; i++) {
+                if (erinevus[i] < 0) {
+                    for (int j = 0; j < esindusteHulk; j++) {
+                        if (erinevus[j] > 0) {
+                            if (Math.abs(erinevus[i]) == Math.abs(erinevus[j])) {
+                                saatmisMaatriks[i][j] = erinevus[i];
+                                saatmisMaatriks[j][i] = erinevus[j];
+                                erinevus[i] = erinevus[j] = 0;
+                            } else if (Math.abs(erinevus[i]) > Math.abs(erinevus[j])) {
+                                saatmisMaatriks[i][j] = -(erinevus[j]);
+                                saatmisMaatriks[j][i] = erinevus[j];
+                                erinevus[i] += erinevus[j];
+                                erinevus[j] = 0;
+                            } else if (Math.abs(erinevus[i]) < Math.abs(erinevus[j])) {
+                                saatmisMaatriks[i][j] = erinevus[i];
+                                saatmisMaatriks[j][i] = -(erinevus[i]);
+                                erinevus[j] += erinevus[i];
+                                erinevus[i] = 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return saatmisMaatriks;
     }
 
-    private static int[][] arvutaJaotusMaatriks(int[] praeguneJaotus) {
+    private static int[][] arvutaJaotusMaatriksVana(int[] praeguneJaotus) {
         int varuosadeHulk = IntStream.of(praeguneJaotus).sum();
+        int esindusteHulk = esindused.size();
         int[] erinevus = new int[esindusteHulk];
         int[][] saatmisMaatriks = new int[esindusteHulk][esindusteHulk];
         for (int i = 0; i < esindusteHulk; i++) {
@@ -254,7 +253,6 @@ public class Main {
             System.out.println("Rida ei õnnestunud lugeda. Stack trace:");
             e.printStackTrace();
         } finally {
-            esindusteHulk = esindused.size();
             if (br != null) {
                 try {
                     br.close();
@@ -289,7 +287,7 @@ public class Main {
                         Integer.parseInt(varuosaRida[4]),
                         Integer.parseInt(varuosaRida[5]),
                         jaotus);
-                varuosaJaotused.add(varuosa);
+                varuosad.add(varuosa);
             }
         } catch (FileNotFoundException erind) {
             System.out.println("Faili ei leitud.");
@@ -304,6 +302,46 @@ public class Main {
                     erind.printStackTrace();
                 }
             }
+        }
+    }
+
+    public static List<String> loeTootjadListist() {
+        List<String> tootjad = new ArrayList<>();
+        for (VaruosaJaotus varuosa : varuosad) {
+            if (!tootjad.contains(varuosa.getTootemark())) {
+                tootjad.add(varuosa.getTootemark());
+            }
+        }
+        return tootjad;
+    }
+
+    public static void kuvaTootjad(List<String> tootjad) {
+        for (String tootja : tootjad) {
+            System.out.println(tootja);
+        }
+    }
+
+    public static List<String> loeVaruosaLiikListist() {
+        List<String> varuosaLiigid = new ArrayList<>();
+        for (VaruosaJaotus varuosa : varuosad) {
+            if (!varuosaLiigid.contains(varuosa.getVaruosaLiik())) {
+                varuosaLiigid.add(varuosa.getVaruosaLiik());
+            }
+        }
+        return varuosaLiigid;
+    }
+
+    public static void kuvaVaruosaLiigid(List<String> varuosaLiigid) {
+        for (String varuosa : varuosaLiigid) {
+            System.out.println(varuosa);
+        }
+    }
+
+    private static void kuvaEsindused() {
+        System.out.println("Kokku on " + esindused.size() + " esindust:");
+        System.out.println(String.format("%-15s%-15s", "Esindus", "Linn"));
+        for (Esindus esindus : esindused) {
+            System.out.println(String.format("%-15s%-15s", esindus.getNimi(), esindus.getAadress().getLinn()));
         }
     }
 }

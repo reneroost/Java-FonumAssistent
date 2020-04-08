@@ -36,12 +36,20 @@ public class VaruosaJaotus {
         this.tootemark = tootemark;
     }
 
+    public String getMudel() {
+        return mudel;
+    }
+
     public String getVaruosaLiik() {
         return varuosaLiik;
     }
 
     public void setVaruosaLiik(String varuosaLiik) {
         this.varuosaLiik = varuosaLiik;
+    }
+
+    public List<Integer> getJaotus() {
+        return jaotus;
     }
 
     public String tabeliPealkiri() {
