@@ -1,4 +1,4 @@
-package ee.reneroost.fonumiassistent;
+package ee.reneroost.fonumiassistent.model;
 
 public class Aadress {
 

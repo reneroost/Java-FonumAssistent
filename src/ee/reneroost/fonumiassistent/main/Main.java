@@ -1,8 +1,18 @@
-package ee.reneroost.fonumiassistent;
+package ee.reneroost.fonumiassistent.main;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 import java.util.stream.IntStream;
+
+import ee.reneroost.fonumiassistent.model.Aadress;
+import ee.reneroost.fonumiassistent.model.Esindus;
+import ee.reneroost.fonumiassistent.model.VaruosaJaotus;
 
 public class Main {
 

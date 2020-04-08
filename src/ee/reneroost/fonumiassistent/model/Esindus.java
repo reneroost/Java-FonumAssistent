@@ -1,4 +1,6 @@
-package ee.reneroost.fonumiassistent;
+package ee.reneroost.fonumiassistent.model;
+
+import ee.reneroost.fonumiassistent.model.Aadress;
 
 public class Esindus {
     private String nimi;
