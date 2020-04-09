@@ -16,7 +16,7 @@ public class FailistLugemine {
 
     public static List<List<Integer>> loeReeglidFailist(String jaotusReeglidSisendFail) {
         List<List<Integer>> reeglid = new ArrayList<>();
-        String jaotusreeglidFail = "C:\\Users\\roost\\Desktop\\Fonumi assistent\\" + jaotusReeglidSisendFail;
+        String jaotusreeglidFail = "C:\\Users\\roost\\Desktop\\Java-FonumAssistent\\" + jaotusReeglidSisendFail;
         BufferedReader br = null;
         String rida, csvEraldaja = ",";
 
@@ -50,7 +50,7 @@ public class FailistLugemine {
 
     public static List<Esindus> loeEsindusedFailist(String esindusedSisendFail) {
         List<Esindus> esindused = new ArrayList<>();
-        String esindusedFail = "C:\\Users\\roost\\Desktop\\Fonumi assistent\\" + esindusedSisendFail;
+        String esindusedFail = "C:\\Users\\roost\\Desktop\\Java-FonumAssistent\\" + esindusedSisendFail;
         BufferedReader br = null;
         String rida, csvEraldaja = ",";
         Esindus esindus;
@@ -60,8 +60,8 @@ public class FailistLugemine {
             br = new BufferedReader(new FileReader(esindusedFail));
             while ((rida = br.readLine()) != null) {
                 String[] esindusRida = rida.split(csvEraldaja);
-                aadress = new Aadress(esindusRida[4], esindusRida[5], esindusRida[6], esindusRida[7]);
-                esindus = new Esindus(esindusRida[0], esindusRida[1], esindusRida[2], esindusRida[3], aadress);
+                aadress = new Aadress(esindusRida[5], Integer.parseInt(esindusRida[6]), esindusRida[7], esindusRida[8]);
+                esindus = new Esindus(esindusRida[0], Integer.parseInt(esindusRida[1]), esindusRida[2], esindusRida[3], esindusRida[4], aadress);
                 esindused.add(esindus);
             }
         } catch (FileNotFoundException e) {
@@ -87,7 +87,7 @@ public class FailistLugemine {
 
     public static List<VaruosaJaotus> loeLaoseisFailist(String varuosaJaotusedSisendFail) {
         List<VaruosaJaotus> varuosad = new ArrayList<>();
-        String laoseisFail = "C:\\Users\\roost\\Desktop\\Fonumi assistent\\" + varuosaJaotusedSisendFail;
+        String laoseisFail = "C:\\Users\\roost\\Desktop\\Java-FonumAssistent\\" + varuosaJaotusedSisendFail;
         BufferedReader br = null;
         String rida, csvEraldaja = ",";
         VaruosaJaotus varuosa;
@@ -98,7 +98,6 @@ public class FailistLugemine {
             while ((rida = br.readLine()) != null) {
                 String[] varuosaRida = rida.split(csvEraldaja);
                 jaotus = new ArrayList<>();
-                // varuosa jaotus esinduste vahel algab rea 6. elemendiga
                 for (int i = 6; i < varuosaRida.length; i++) {
                     jaotus.add(Integer.parseInt(varuosaRida[i]));
                 }

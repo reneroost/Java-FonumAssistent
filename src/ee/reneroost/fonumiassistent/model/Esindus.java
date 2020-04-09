@@ -1,20 +1,22 @@
 package ee.reneroost.fonumiassistent.model;
 
-import ee.reneroost.fonumiassistent.model.Aadress;
-
 public class Esindus {
     private String nimi;
+    private int prioriteet;
     private String nimiSisseytlev;
     private String nimiSeesytlev;
     private String nimiSeestytlev;
     private Aadress aadress;
 
-    public Esindus(String nimi,
-                   String nimiSisseytlev,
-                   String nimiSeesytlev,
-                   String nimiSeestytlev,
-                   Aadress aadress) {
+    public Esindus(
+        String nimi,
+        int prioriteet,
+        String nimiSisseytlev,
+        String nimiSeesytlev,
+        String nimiSeestytlev,
+        Aadress aadress) {
         this.nimi = nimi;
+        this.prioriteet = prioriteet;
         this.nimiSisseytlev = nimiSisseytlev;
         this.nimiSeesytlev = nimiSeesytlev;
         this.nimiSeestytlev = nimiSeestytlev;

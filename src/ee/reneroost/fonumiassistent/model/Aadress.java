@@ -3,11 +3,11 @@ package ee.reneroost.fonumiassistent.model;
 public class Aadress {
 
     private String tanav;
-    private String postiindeks;
+    private int postiindeks;
     private String linn;
     private String riik;
 
-    public Aadress(String tanav, String postiindeks, String linn, String riik) {
+    public Aadress(String tanav, int postiindeks, String linn, String riik) {
         this.tanav = tanav;
         this.postiindeks = postiindeks;
         this.linn = linn;
@@ -22,11 +22,11 @@ public class Aadress {
         this.tanav = tanav;
     }
 
-    public String getPostiindeks() {
+    public int getPostiindeks() {
         return postiindeks;
     }
 
-    public void setPostiindeks(String postiindeks) {
+    public void setPostiindeks(int postiindeks) {
         this.postiindeks = postiindeks;
     }
 
