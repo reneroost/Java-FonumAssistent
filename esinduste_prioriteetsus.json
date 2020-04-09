@@ -1,0 +1,30 @@
+{[	{
+	"tootja": "Apple"
+	"esindusteJärjestus": [
+		"Kristiine",
+		"Lõunakeskus",
+		"T1"
+	]},
+
+	{
+	"tootja": Huawei"
+	"esindusteJärjestus": [
+		"T1",
+		"Kristiine",
+		"Lõunakeskus"
+	]},
+	{
+	"tootja": "Samsung"
+	"esindusteJärjestus": [
+		"Lõunakeskus",
+		"Kristiine",
+		"T1"
+	]},
+	{
+	"tootja": Xiaomi"
+	"esindusteJärjestus": [
+		"T1",
+		"Lõunakeskus",
+		"Kristiine"
+	]},
+}
