@@ -2,7 +2,7 @@ package ee.reneroost.fonumiassistent.main;
 
 import java.util.Scanner;
 
-class Menyy {
+class Menuu {
 
     static void kuvaMenuu() {
         System.out.println("1. loe laoseis failist (laoseis.csv)");
@@ -30,6 +30,7 @@ class Menyy {
                 System.out.print("Pole arv! ");
             }
         } while (valik < 1 || valik > valikuteHulk);
+        klaviatuur.close();
         return valik;
     }
 

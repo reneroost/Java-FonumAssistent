@@ -3,7 +3,7 @@ package ee.reneroost.fonumiassistent.model;
 import java.util.List;
 
 public class VaruosaJaotus {
-    private String tootemark;
+    private String tootja;
     private String mudel;
     private String varuosaLiik;
     private double omaHind;
@@ -19,7 +19,7 @@ public class VaruosaJaotus {
             int myygiHind,
             int kogus,
             List<Integer> jaotus) {
-        this.tootemark = tootemark;
+        this.tootja = tootemark;
         this.mudel = mudel;
         this.varuosaLiik = varuosaLiik;
         this.omaHind = omaHind;
@@ -28,12 +28,12 @@ public class VaruosaJaotus {
         this.jaotus = jaotus;
     }
 
-    public String getTootemark() {
-        return tootemark;
+    public String getTootja() {
+        return tootja;
     }
 
-    public void setTootemark(String tootemark) {
-        this.tootemark = tootemark;
+    public void setTootja(String tootemark) {
+        this.tootja = tootemark;
     }
 
     public String getMudel() {
@@ -48,24 +48,28 @@ public class VaruosaJaotus {
         this.varuosaLiik = varuosaLiik;
     }
 
+    public int getKogus() {
+        return kogus;
+    }
+
     public List<Integer> getJaotus() {
         return jaotus;
     }
 
-    public String tabeliPealkiri() {
+    public String tabeliPealkiri(List<Esindus> esindused) {
         String pealkiri = String.format("%-12s%-20s%-15s%-16s%-15s%-10s", 
         "Mark", "Mudel", "Varuosa liik", "Varuosa omahind", "Teenuse hind", "Kogus");
         for (int i = 0; i < jaotus.size(); i++) {
-            pealkiri += String.format("%-10s", "Esindus " + (i + 1));
+            pealkiri += String.format("%-12s", esindused.get(i).getNimi());
         }
         return pealkiri;        
     }
 
     public String tabeliRida() {
         String rida = String.format("%-12s%-20s%-15s%-16s%-15s%-10s",
-        this.tootemark, this.mudel, this.varuosaLiik, this.omaHind, this.myygiHind, this.kogus);
+        this.tootja, this.mudel, this.varuosaLiik, this.omaHind, this.myygiHind, this.kogus);
         for (Integer arv: jaotus) {
-            rida += String.format("%-10s", arv);
+            rida += String.format("%-12s", arv);
         }
         return rida;    
     }
