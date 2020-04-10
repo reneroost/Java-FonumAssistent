@@ -1,4 +1,4 @@
-package ee.reneroost.fonumiassistent.model;
+package main.java.ee.reneroost.fonumiassistent.model;
 
 import java.util.List;
 

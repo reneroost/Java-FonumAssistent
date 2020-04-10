@@ -1,17 +1,12 @@
-package ee.reneroost.fonumiassistent.peamine;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+package main.java.ee.reneroost.fonumiassistent.peamine;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ee.reneroost.fonumiassistent.model.Esindus;
-import ee.reneroost.fonumiassistent.model.Prioriteetsus;
-import ee.reneroost.fonumiassistent.model.VaruosaJaotus;
-import ee.reneroost.fonumiassistent.util.FailistLugemine;
-
-
+import main.java.ee.reneroost.fonumiassistent.model.Esindus;
+import main.java.ee.reneroost.fonumiassistent.model.Prioriteetsus;
+import main.java.ee.reneroost.fonumiassistent.model.VaruosaJaotus;
+import main.java.ee.reneroost.fonumiassistent.util.FailistLugemine;
 
 public class Main {
 

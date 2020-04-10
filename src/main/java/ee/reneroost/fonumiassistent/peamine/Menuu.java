@@ -1,4 +1,4 @@
-package ee.reneroost.fonumiassistent.peamine;
+package main.java.ee.reneroost.fonumiassistent.peamine;
 
 import java.util.Scanner;
 

@@ -1,4 +1,4 @@
-package ee.reneroost.fonumiassistent.util;
+package main.java.ee.reneroost.fonumiassistent.util;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -8,16 +8,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import ee.reneroost.fonumiassistent.model.Aadress;
-import ee.reneroost.fonumiassistent.model.Esindus;
-import ee.reneroost.fonumiassistent.model.Prioriteetsus;
-import ee.reneroost.fonumiassistent.model.VaruosaJaotus;
+import main.java.ee.reneroost.fonumiassistent.model.Aadress;
+import main.java.ee.reneroost.fonumiassistent.model.Esindus;
+import main.java.ee.reneroost.fonumiassistent.model.Prioriteetsus;
+import main.java.ee.reneroost.fonumiassistent.model.VaruosaJaotus;
 
 public class FailistLugemine {
 
     public static List<List<Integer>> loeReeglidFailist(String sisendFail) {
         List<List<Integer>> reeglid = new ArrayList<>();
-        String sisendFailMarsruudiga = "C:\\Users\\roost\\documents\\Java-FonumAssistent\\" + sisendFail;
+        String sisendFailMarsruudiga = "C:\\Users\\roost\\desktop\\Java-FonumAssistent\\" + sisendFail;
         BufferedReader br = null;
         String rida, csvEraldaja = ",";
 
@@ -51,7 +51,7 @@ public class FailistLugemine {
 
     public static List<Esindus> loeEsindusteAndmedFailist(String sisendFail) {
         List<Esindus> esindused = new ArrayList<>();
-        String sisendFailMarsruudiga = "C:\\Users\\roost\\documents\\Java-FonumAssistent\\" + sisendFail;
+        String sisendFailMarsruudiga = "C:\\Users\\roost\\desktop\\Java-FonumAssistent\\" + sisendFail;
         BufferedReader br = null;
         String rida, csvEraldaja = ",";
         Esindus esindus;
@@ -88,7 +88,7 @@ public class FailistLugemine {
 
     public static List<VaruosaJaotus> loeLaoseisFailist(String sisendFail) {
         List<VaruosaJaotus> varuosad = new ArrayList<>();
-        String sisendFailMarsruudiga = "C:\\Users\\roost\\documents\\Java-FonumAssistent\\" + sisendFail;
+        String sisendFailMarsruudiga = "C:\\Users\\roost\\desktop\\Java-FonumAssistent\\" + sisendFail;
         BufferedReader br = null;
         String rida, csvEraldaja = ",";
         VaruosaJaotus varuosa;
