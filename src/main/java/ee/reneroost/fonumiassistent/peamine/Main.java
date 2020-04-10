@@ -1,4 +1,7 @@
-package ee.reneroost.fonumiassistent.main;
+package ee.reneroost.fonumiassistent.peamine;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +10,8 @@ import ee.reneroost.fonumiassistent.model.Esindus;
 import ee.reneroost.fonumiassistent.model.Prioriteetsus;
 import ee.reneroost.fonumiassistent.model.VaruosaJaotus;
 import ee.reneroost.fonumiassistent.util.FailistLugemine;
+
+
 
 public class Main {
 
@@ -287,15 +292,15 @@ public class Main {
 
     private static int minJargmineTaisarv(int[] massiiv, int element) {
         int vaiksuseltJargmine = 0;
-        for (int i = 0; i < massiiv.length; i++) {
-            if (massiiv[i] > element) {
-                vaiksuseltJargmine = massiiv[i];
+        for (int vaartus : massiiv) {
+            if (vaartus > element) {
+                vaiksuseltJargmine = vaartus;
                 break;
             }
         }
-        for (int i = 0; i < massiiv.length; i++) {
-            if (massiiv[i] > element && massiiv[i] < vaiksuseltJargmine) {
-                vaiksuseltJargmine = massiiv[i];
+        for (int vaartus : massiiv) {
+            if (vaartus > element && vaartus < vaiksuseltJargmine) {
+                vaiksuseltJargmine = vaartus;
             }
         }
         return vaiksuseltJargmine;

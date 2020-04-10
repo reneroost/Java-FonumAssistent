@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Fonumi assistent.iml" filepath="$PROJECT_DIR$/Fonumi assistent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Java-FonumAssistent.iml" filepath="$PROJECT_DIR$/Java-FonumAssistent.iml" />
     </modules>
   </component>
 </project>

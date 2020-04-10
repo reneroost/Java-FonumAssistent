@@ -1,4 +1,4 @@
-package ee.reneroost.fonumiassistent.main;
+package ee.reneroost.fonumiassistent.peamine;
 
 import java.util.Scanner;
 
@@ -19,7 +19,7 @@ class Menuu {
 
     static int loeMenuuValik(int valikuteHulk) {
         Scanner klaviatuur = new Scanner(System.in);
-        String sisend = null;
+        String sisend;
         int valik = 0;
         do {
             try {
